@@ -1,0 +1,32 @@
+version: '3.3'
+services:
+#  MYSQL server database
+  mysqldb:
+    image: mysql
+    command: mysqld --user=root --init-file="/tmp/database/dump.sql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=phonebook
+    volumes:
+      #      - ./database:/docker-entrypoint-initdb.d/
+      - ./database/dump.sql:/tmp/database/dump.sql
+    ports:
+      - 3306:3306
+    restart: always
+    network_mode: host
+
+# spring boot app
+  phonebook-server:
+    image: phonebook
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/phonebook
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqldb
+    network_mode: host
