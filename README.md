@@ -5,6 +5,9 @@
 (тесты пропускаются)
 mvn -Dmaven.test.skip=true install
 
+### DataBase:
+![image](https://github.com/Movshuk/phonebook/blob/master/database/database_s.png)
+
 ### Swagger:
 http://localhost:8080/swagger-ui.html#/
 
