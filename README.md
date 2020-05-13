@@ -11,12 +11,26 @@
 Служба phonebook для хранения и обработки данных абонентов через REST сервис.
 
 ***
-### Инсталяция:
+### Инсталляция:
 (тесты пропускаются)
 mvn -Dmaven.test.skip=true install
 
 ### DataBase:
 ![image](https://github.com/Movshuk/phonebook/blob/master/database/database_s.png)
+
+Полный набор данных по абоненту возвращается в форме объекта:
+
+    {
+      "contactTypes": "string",
+      "firstName": "string",
+      "id": 0,
+      "lastName": "string",
+      "middleName": "string",
+      "numbers": [
+        "string"
+      ],
+      "position": "string"
+    }
 
 ### Swagger:
 http://localhost:8080/swagger-ui.html#/
