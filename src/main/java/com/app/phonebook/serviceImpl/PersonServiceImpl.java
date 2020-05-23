@@ -2,7 +2,11 @@ package com.app.phonebook.serviceImpl;
 
 import com.app.phonebook.exceptions.ResourceNotFoundException;
 import com.app.phonebook.model.Person;
+import com.app.phonebook.model.UserInfo;
 import com.app.phonebook.service.PersonService;
+import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -16,6 +20,7 @@ import java.util.Map;
 @Service
 public class PersonServiceImpl implements PersonService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonServiceImpl.class);
     final
     EntityManagerFactory emf;
 
@@ -23,36 +28,33 @@ public class PersonServiceImpl implements PersonService {
         this.emf = emf;
     }
 
-    public List<Person> getAllPersons()
-    {
+    public List<Person> getAllPersons() {
         EntityManager em = emf.createEntityManager();
 
-        Query query = em.createQuery(
-                "select " +"p.id, p.firstName, p.middleName, p.lastName, p.position "
-                        +"from Person p ");
-
-        List<Person> result = getPersonListFromQuery(query);
+        List<Person> listPersons = em.createQuery(
+                "select p from Person p ",
+                    Person.class)
+                .getResultList();
 
         em.close();
 
-        return result;
+        return listPersons;
     }
 
     public List<Person> findPersonByParams(String firstName) {
         EntityManager em = emf.createEntityManager();
 
-        Query query = em.createQuery(
-                "select " +"p.id, p.firstName,  p.lastName, p.middleName, p.position "
-                        +"from Person p " +
-                "where :firstName is null or p.firstName = :firstName");
-
-        query.setParameter("firstName", firstName);
-
-        List<Person> result = getPersonListFromQuery(query);
+        List<Person> listPersons = em.createQuery(
+                "select p " +
+                        "from Person p " +
+                        "where :firstName is null or p.firstName = :firstName",
+                    Person.class)
+                .setParameter("firstName", firstName)
+                .getResultList();
 
         em.close();
 
-        return result;
+        return listPersons;
     }
 
     public Map<String, Boolean> deletePersonById(Long id) throws Exception{
@@ -82,27 +84,29 @@ public class PersonServiceImpl implements PersonService {
                 response.put("Record is deleted.", Boolean.TRUE);
             }
             return response;
-
         }
     }
 
     public Person updatePerson(Person personReq) {
-        EntityManager em = emf.createEntityManager();
+        try {
+            EntityManager em = emf.createEntityManager();
 
-        em.getTransaction().begin();
+            em.getTransaction().begin();
+            Person perRes = em.find(Person.class, personReq.getId());
 
-        Person perRes = em.find(Person.class, personReq.getId());
-        perRes.setId(personReq.getId());
-        perRes.setFirstName(personReq.getFirstName());
-        perRes.setLastName(personReq.getLastName());
-        perRes.setMiddleName(personReq.getMiddleName());
-        perRes.setPosition(personReq.getPosition());
-
-        em.getTransaction().commit();
-        em.close();
-
-        return perRes;
-
+            if (perRes == null) {
+                addPerson(personReq);
+                return personReq;
+            } else {
+                perRes.merge(personReq);
+                em.getTransaction().commit();
+                em.close();
+                return perRes;
+            }
+        } catch(HibernateException e) {
+            LOGGER.info("Something wong! " + e.getMessage());
+            return null;
+        }
     }
 
     public boolean addPerson(Person personReq) {
@@ -125,19 +129,20 @@ public class PersonServiceImpl implements PersonService {
         return true;
     }
 
-    public List<Person> getPersonListFromQuery(Query query) {
-        List<Object[]> rows = query.getResultList();
-        List<Person> result = new ArrayList<>(rows.size());
-        for (Object[] row : rows) {
-            result.add(new Person(
-                    (Long) row[0],
-                    (String) row[1],
-                    (String) row[2],
-                    (String) row[3],
-                    (String) row[4]));
-        }
-
-        return result;
-    }
+    
+//    public List<Person> getPersonListFromQuery(Query query) {
+//        List<Object[]> rows = query.getResultList();
+//        List<Person> result = new ArrayList<>(rows.size());
+//        for (Object[] row : rows) {
+//            result.add(new Person(
+//                    (Long) row[0],
+//                    (String) row[1],
+//                    (String) row[2],
+//                    (String) row[3],
+//                    (String) row[4]));
+//        }
+//
+//        return result;
+//    }
 
 }

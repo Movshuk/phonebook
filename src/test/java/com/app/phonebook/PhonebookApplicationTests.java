@@ -18,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
@@ -109,15 +110,11 @@ class PhonebookApplicationTests {
     public Long getIdTestRecord(Person testPerson) {
         EntityManager em = emf.createEntityManager();
 
-        Query query = em.createQuery(
-                "select " +"p.id, p.firstName, p.lastName, p.middleName, p.position "
-                        +"from Person p " +
-                        "where :firstName is null or p.firstName = :firstName");
-        query.setParameter("firstName", testPerson.getFirstName());
+        Person person = personServiceImpl
+                .findPersonByParams(testPerson.getFirstName())
+                .get(0);
 
-        Person responsePersonTest = (personServiceImpl.getPersonListFromQuery(query)).get(0);
-
-        return responsePersonTest.getId();
+        return person.getId();
     }
 
 

@@ -57,6 +57,14 @@ public class Person {
         this.position = position;
     }
 
+    public void merge(Person personPassed) {
+        setId(personPassed.getId());
+        setFirstName(personPassed.getFirstName());
+        setLastName(personPassed.getLastName());
+        setMiddleName(personPassed.getMiddleName());
+        setPosition(personPassed.getPosition());
+    }
+
     public Long getId() {
         return id;
     }
