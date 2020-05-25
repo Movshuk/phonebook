@@ -25,7 +25,7 @@ public class ContactTypeController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully added")
     })
-    @RequestMapping(value = "/phonebook/contact-types/add", method = RequestMethod.PUT)
+    @RequestMapping(value = "/phonebook/contact-types/add", method = RequestMethod.POST)
     public String addContactTypes(@RequestBody ContactType contactType)
     {
         contactTypeServiceImpl.addContactTypes(contactType);
@@ -64,7 +64,7 @@ public class ContactTypeController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated"),
     })
-    @RequestMapping(value = "/phonebook/contact-types/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/phonebook/contact-types/update", method = RequestMethod.PUT)
     public ContactType updateContactType(@RequestBody ContactType contactType)
     {
 

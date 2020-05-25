@@ -1,19 +1,20 @@
 # Phonebook
-* Java
-* Maven
-* Hibernate
-* Spring
-* Swagger
-* MySql
-* Docker
+* Java 8+
+* Maven 3.6.3
+* Hibernate 5.4.12.Final
+* Spring boot 2.2.6.RELEASE
+* Swagger 2.9.2
+* MySql 8.0.20
+* Docker 19.03.9
+* JUnit 
 
 ### Смотреть на Heroku: https://phonebookrest.herokuapp.com/swagger-ui.html
 Служба phonebook для хранения и обработки данных абонентов через REST сервис.
 
 ***
 ### Инсталляция:
-(тесты пропускаются)
-mvn -Dmaven.test.skip=true install
+    mvn -Dmaven.test.skip=true install //тесты пропускаются
+
 
 ### DataBase:
 ![image](https://github.com/Movshuk/phonebook/blob/master/database/database_s.png)
@@ -31,6 +32,8 @@ mvn -Dmaven.test.skip=true install
       ],
       "position": "string"
     }
+
+![image](https://github.com/Movshuk/phonebook/blob/master/database/merge_object.png)
 
 ### Swagger:
 http://localhost:8080/swagger-ui.html#/
@@ -54,4 +57,5 @@ sudo docker-compose up
 * Убедиться что порт 3306 свободен для MySql сервера
 * Docker построит службы на localhost для сервера и 3306 порту для MySql сервера
 * Удаление записей из связанных таблиц One-To-Many организованной каскадно
-* ./database содержит файл dump.sql для построения базы данных
+* ./database содержит файл dump.sql для построения базы данных в контейнере Docker
+* ./resources/data.sql (/schema.sql) (образ db для инициализации при старте)

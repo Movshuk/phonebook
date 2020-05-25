@@ -27,7 +27,7 @@ public class PersonController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully added")
     })
-    @RequestMapping(value = "/phonebook/person/add", method = RequestMethod.PUT)
+    @RequestMapping(value = "/phonebook/person/add", method = RequestMethod.POST)
     public String addPerson(@RequestBody Person person)
     {
         personServiceImpl.addPerson(person);
@@ -75,7 +75,7 @@ public class PersonController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully updated")
     })
-    @RequestMapping(value = "/phonebook/person/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/phonebook/person/update", method = RequestMethod.PUT)
     public Person updatePerson(@RequestBody Person person)
     {
 
