@@ -73,12 +73,11 @@ public class PersonServiceImpl implements PersonService {
             if(personToFind == null)
                 throw new ResourceNotFoundException("not found");
         } catch(ResourceNotFoundException ex) {      // IllegalArgumentException
-            response = new HashMap<>();
             response.put("Record is not deleted.", Boolean.FALSE);
         } finally {
 
             if(response.isEmpty()) {
-                em.remove(personToFind);
+                em.remove(personToFind); 
                 em.getTransaction().commit();
                 em.close();
                 response.put("Record is deleted.", Boolean.TRUE);
