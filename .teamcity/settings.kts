@@ -45,7 +45,7 @@ object BuildPhonebook : BuildType({
 
     steps {
         maven {
-            goals = "clean test"
+            goals = "clean package"
             runnerArgs = "-Dmaven.test.failure.ignore=true -Dmaven.test.skip=true"
         }
     }
