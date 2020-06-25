@@ -32,10 +32,15 @@ project {
 }
 
 object BuildPhonebook : BuildType({
+    id("Phonebook_BuildPhonebook")
     name = "BuildPhonebook"
 
     vcs {
-        root(DslContext.settingsRoot)
+//        root(DslContext.settingsRoot)
+        root(PhonebookVCS)
+        checkoutMode = CheckoutMode.ON_AGENT
+        checkoutDir = "source"
+
     }
 
     steps {
