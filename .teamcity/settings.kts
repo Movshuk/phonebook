@@ -27,7 +27,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2020.1"
 
 project {
-    vcsRoot(PhonebookVCS)
+
     buildType(BuildPhonebook)
 }
 
@@ -54,9 +54,4 @@ object BuildPhonebook : BuildType({
         vcs {
         }
     }
-})
-
-object PhonebookVCS : GitVCSRoot({
-    name = "PhonebookVCS"
-    url="https://github.com/Movshuk/phonebook.git"
 })
