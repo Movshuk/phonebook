@@ -99,6 +99,28 @@ INSERT INTO `person` VALUES (28,'Alexander','Pushkin','Sergeevich','author'),(40
 UNLOCK TABLES;
 
 --
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+--
+-- Dumping data for table `users`
+--
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('admin@admin.ru','$2a$10$9fyLydB5P4qdtl37SRXoSuJNPsfjEBHE7wK.Igc4JnoFlgl1juBiK','ROLE_ADMIN');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+--
 -- Dumping events for database 'phonebook'
 --
 
